@@ -63,8 +63,8 @@ class Hollywood():
 
 
     def _build_square(self, frame, rows, cols):
-        height = math.floor(frame.shape[1] / rows)
-        width = math.floor(frame.shape[0] / cols)
+        height = math.floor(frame.shape[0] / rows)
+        width = math.floor(frame.shape[1] / cols)
         return np.zeros((height, width, 3), dtype='uint8') + 255
 
     def add_frame(self, frame):
@@ -87,7 +87,7 @@ class Hollywood():
         width = math.floor(frame_x / cols)
 
         for i in range(num_persons):
-            square = _build_square(new_frame, rows, cols)
+            square = self._build_square(new_frame, rows, cols)
             person_img = cv2.imread(self._get_person_path(i))
             person_img = self._resize_to_fit_frame(new_frame, person_img, rows, cols)
             square = self._fit_in_the_middle(square, person_img)
@@ -133,12 +133,26 @@ class Hollywood():
 
         pos = (0, 0)
         final_position = (frame_y, 0)
+    
+        if slide_direction == 'down':
+            pos = (square_y*-1, 0)
+            final_position = (frame_y, 0)
+
+        if slide_direction == 'up':
+            pos = (frame_y, 0)
+            final_position = (square_y*-1, 0)
+        
+        if slide_direction == 'right':
+            pos = (0, square_x*-1)
+            final_position = (0, frame_x)
+        
+        if slide_direction == 'left':
+            pos = (0, frame_x)
+            final_position = (0, square_x*-1)
 
         step = (math.ceil((final_position[0] - pos[0]) / total_frames), 
                 math.ceil((final_position[1] - pos[1]) / total_frames))
 
-        # if slide_direction == 'down':
-        #     final_position = (frame_y, frame_x)
 
         for i in range(total_frames):
             frame = np.zeros((self.height, self.width, 3), dtype='uint8') + 255
@@ -159,8 +173,23 @@ class Hollywood():
                 print('D=')
                 continue
 
-            frame[pos[0]:square_y + pos[0] - overflow_y, 
-                    pos[1]:square_x + pos[1] - overflow_x] = square[0:square_y - overflow_y, 0:square_x - overflow_x]
+
+            init_frame_y = pos[0]
+            init_square_y = 0
+
+            init_frame_x = pos[1]
+            init_square_x = 0
+
+            if pos[0] < 0:
+                init_frame_y = 0
+                init_square_y = pos[0]
+
+            if pos[1] < 0:
+                init_frame_x = 0
+                init_square_x = pos[1]
+
+            frame[init_frame_y:square_y + pos[0] - overflow_y, 
+                    init_frame_x:square_x + pos[1] - overflow_x] = square[0 - init_square_y:square_y - overflow_y, 0 - init_square_x:square_x - overflow_x]
 
             self.add_frame(frame)
             pos = self._walk_one(pos, step)
