@@ -31,5 +31,9 @@ h.slide_person(3, slide_direction="left", rows=1, cols=1, index=3)
 
 h.wait(1)
 
+h.slide_person(3, slide_direction="right", rows=1, cols=1, index=13)
+h.slide_person(3, slide_direction="right", rows=1, cols=3, index=13)
+h.slide_person(3, slide_direction="right", rows=1, cols=5, index=13)
+
 
 h.close_video()  # finaliza o video
