@@ -238,10 +238,12 @@ class Hollywood():
         # print(final_position)
 
 
-    def close_video(self):
+    def close_video(self, convert=False):
         self.video.release()
         print(self.video)
-        os.system('ffmpeg -y -i video.avi video.mp4')
-        print('Acabou! Gerado video.mp4')
+        if convert:
+            output = self.output.split('.')[0] + '.mp4'
+            os.system('ffmpeg -y -i {} {}'.format(self.output, output))
+            print('Acabou! Gerado {}'.format(output))
 
 
