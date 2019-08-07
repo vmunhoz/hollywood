@@ -114,7 +114,7 @@ class Hollywood():
         
         return func
 
-    def get_show_frame(self, num_objs, rows, cols, obj_type='person'):
+    def get_show_frame(self, num_objs, rows, cols, obj_type='person', index=0):
         df = self.get_default_frame(rows, cols)
 
         last_offset_x = 0
@@ -125,7 +125,7 @@ class Hollywood():
 
         for i in range(num_objs):
             square = self._build_square(df['frame'], rows, cols)
-            obj_img = cv2.imread(get_obj_path(i))
+            obj_img = cv2.imread(get_obj_path(i + index))
             obj_img = self._resize_to_fit_frame(df['frame'], obj_img, rows, cols)
             square = self._fit_in_the_middle(square, obj_img)
 
@@ -145,15 +145,15 @@ class Hollywood():
         
         return df['frame']
 
-    def show_car(self, seconds, num_cars=1, rows=2, cols=3):
+    def show_car(self, seconds, num_cars=1, rows=2, cols=3, index=0):
         print('show_car: {} segundos, {} carros, em uma grid [{},{}]'.format(seconds, num_cars, rows, cols))
-        frame = self.get_show_frame(num_cars, rows, cols, obj_type='car')
+        frame = self.get_show_frame(num_cars, rows, cols, obj_type='car', index=index)
         for _ in range(seconds * int(self.fps)):
             self.add_frame(frame)
 
-    def show_person(self, seconds, num_persons=1, rows=2, cols=5):
+    def show_person(self, seconds, num_persons=1, rows=2, cols=5, index=0):
         print('show_person: {} segundos, {} pessoas, em uma grid [{},{}]'.format(seconds, num_persons, rows, cols))
-        frame = self.get_show_frame(num_persons, rows, cols, obj_type='person')
+        frame = self.get_show_frame(num_persons, rows, cols, obj_type='person', index=index)
         for _ in range(seconds * int(self.fps)):
             self.add_frame(frame)
 
