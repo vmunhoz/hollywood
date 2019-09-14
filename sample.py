@@ -1,9 +1,10 @@
+""" Sample file. """
 from hollywood import Hollywood
 
 h = Hollywood()
 
 
-h.wait(1)  # espera 1 segundo
+h.wait(1)  # wait 1 second
 
 h.show_car(2, num_cars=1, rows=1, cols=1)
 h.show_car(2, num_cars=5)
