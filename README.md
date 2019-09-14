@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4806f0a3bd4436eb8c5b88161e5f3ee)](https://www.codacy.com/manual/vmunhoz/hollywood?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vmunhoz/hollywood&amp;utm_campaign=Badge_Grade)
+
 # Hollywood
 
 Hollywood is a python library that generates video files with common situations used in the QA process of video analysis software.
