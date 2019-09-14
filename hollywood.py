@@ -213,7 +213,8 @@ class Hollywood():
         for _ in range(seconds * int(self.fps)):
             self.add_frame(frame)
 
-    def _walk_one(self, current_position, step):
+    @staticmethod
+    def _walk_one(current_position, step):
         return (current_position[0] + step[0], current_position[1] + step[1])
 
     def slide_car(self, move_seconds, hold_seconds=0, slide_direction='down', rows=2, cols=3, index=0):
@@ -225,6 +226,9 @@ class Hollywood():
     def slide_obj(self, move_seconds, hold_seconds=0, slide_direction='down', rows=2, cols=5, obj_type='person', index=0):
         """ possible border_from = up, right, down, left """
         print('slide_{}: {} segundos, slide_direction {}, em uma grid [{},{}]'.format(obj_type, move_seconds, slide_direction, rows, cols))
+
+        if hold_seconds != 0:
+            print("hold_seconds is not implemented yet")
 
         frame = np.zeros((self.height, self.width, 3), dtype='uint8') + 255
         frame_y, frame_x, _ = frame.shape
@@ -261,7 +265,7 @@ class Hollywood():
         step = (math.ceil((final_position[0] - pos[0]) / total_frames),
                 math.ceil((final_position[1] - pos[1]) / total_frames))
 
-        for i in range(total_frames):
+        for _ in range(total_frames):
             frame = np.zeros((self.height, self.width, 3), dtype='uint8') + 255
 
             overflow_y = max(0, (square_y + pos[0]) - frame_y)
