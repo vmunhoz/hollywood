@@ -293,9 +293,6 @@ class Hollywood():
         # print(final_position)
 
     def close_video(self, convert=False):
+        """Save the video .avi file."""
         self.video.release()
         print(self.video)
-        if convert:
-            output = self.output.split('.')[0] + '.mp4'
-            os.system('ffmpeg -y -i {} {}'.format(self.output, output))
-            print('Acabou! Gerado {}'.format(output))
