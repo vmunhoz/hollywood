@@ -292,7 +292,7 @@ class Hollywood():
             pos = self._walk_one(pos, step)
         # print(final_position)
 
-    def close_video(self, convert=False):
+    def close_video(self):
         """Save the video .avi file."""
         self.video.release()
         print(self.video)
